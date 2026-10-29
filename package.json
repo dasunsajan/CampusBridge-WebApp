@@ -1,0 +1,27 @@
+{
+  "name": "campusbridge",
+  "version": "1.0.0",
+  "description": "CampusBridge — Campus Event & Micro-Sponsorship Platform (EC4307 Mini Project)",
+  "scripts": {
+    "install:all": "npm --prefix backend install && npm --prefix frontend install",
+    "seed": "npm --prefix backend run db:seed",
+    "test": "npm --prefix backend test",
+    "build:backend": "npm --prefix backend run build",
+    "build:frontend": "npm --prefix frontend run build",
+    "build": "npm run build:backend && npm run build:frontend"
+  },
+  "keywords": [
+    "university",
+    "events",
+    "micro-sponsorship",
+    "react",
+    "express",
+    "sqlite",
+    "prisma"
+  ],
+  "author": "Undergraduate Student (EC4307)",
+  "license": "ISC",
+  "devDependencies": {
+    "puppeteer-core": "^25.16.0"
+  }
+}
