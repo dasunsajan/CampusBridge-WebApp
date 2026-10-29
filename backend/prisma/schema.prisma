@@ -1,0 +1,56 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Event {
+  id            String         @id @default(uuid())
+  title         String
+  description   String
+  category      String         // e.g., "Technology", "Cultural", "Sports", "Academic", "Community"
+  organizerName String         // e.g., "IEEE Student Branch", "Rotaract Club", "Art Society"
+  eventDate     DateTime
+  venue         String
+  targetBudget  Float          // Target funding amount in LKR
+  status        String         @default("UPCOMING") // "UPCOMING", "ONGOING", "COMPLETED", "CANCELLED"
+  imageUrl      String?
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  sponsorships  Sponsorship[]
+
+  @@map("events")
+}
+
+model Sponsor {
+  id               String         @id @default(uuid())
+  name             String
+  email            String         @unique
+  phone            String
+  businessCategory String         // e.g., "Software & IT", "Banking & Finance", "Food & Beverage", "Alumni"
+  logoUrl          String?
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+  sponsorships     Sponsorship[]
+
+  @@map("sponsors")
+}
+
+model Sponsorship {
+  id        String   @id @default(uuid())
+  eventId   String
+  sponsorId String
+  amount    Float    // Micro-sponsorship pledge amount in LKR
+  message   String?
+  status    String   @default("PENDING") // "PENDING", "ACCEPTED", "REJECTED"
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  event     Event    @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  sponsor   Sponsor  @relation(fields: [sponsorId], references: [id], onDelete: Cascade)
+
+  @@map("sponsorships")
+}
